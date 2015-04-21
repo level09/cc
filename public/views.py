@@ -2,7 +2,7 @@ from flask import Flask, request, abort, Response, redirect, url_for, flash, Blu
 from flask.templating import render_template
 from flask_security.decorators import roles_required, login_required
 from public.forms import VideoForm
-
+from werkzeug import secure_filename
 from settings import Config
 from tools import s3_upload
 import os
@@ -22,13 +22,19 @@ def static_from_root():
 
 @bp_public.route('/submit',methods=['POST'])
 def submit():
+    if request.method == 'POST':
 
-    form = VideoForm(request.form)
+        video = request.files['video'] if 'video' in request.files else None
+        srt = request.files['srt'] if 'srt' in request.files else None
+        vid_name = None
+        srt_name = None
 
-    if form.validate_on_submit():
-
-        output = s3_upload(request.files['video'])
-        print output
+        if video:
+            vid_name = secure_filename(video.filename)
+            video.save(os.path.join(Config().UPLOAD_DIR,  vid_name))
+        if srt:
+            srt_name = secure_filename(srt.filename)
+            srt.save(os.path.join(Config().UPLOAD_DIR,srt_name))
 
 
 

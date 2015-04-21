@@ -12,3 +12,9 @@ def index():
 @bp_public.route('/robots.txt')
 def static_from_root():
     return send_from_directory(bp_public.static_folder, request.path[1:])
+
+
+
+@bp_public.route('/submit',methods=['POST'])
+def submit():
+    return 'done'

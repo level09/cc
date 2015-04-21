@@ -13,6 +13,10 @@ gulp.task('css',function(){
 gulp.task('js',function(){
     //define scripts as array so we can prioritize them
     return gulp.src([
+        'static/_js/jquery-1.9.0.js',
+        'static/_js/jquery.blockUI.js',
+        'static/_js/jquery.form-validator.min.js',
+        'static/_js/jquery.form.min.js',
         'static/_js/main.js'
             ]
     )

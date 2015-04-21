@@ -3,15 +3,63 @@
 {% block content %}
 
 
-  <div class="container">
-    <div class="row">
-      <div class="one-half column" style="margin-top: 25%">
-        <h4>Welcome !</h4>
-        <p>Congratulations ! Enferno frameowrk has been installed successfully. </p>
-      </div>
+    <div class="container">
+        <div class="row">
+
+            <h1>Video/Subtitle Merger v1.0</h1>
+
+
+            <form action="/submit" method="post" enctype="multipart/form-data">
+                <input type="file" name="video"><br>
+                <input type="submit" value="Video File">
+            </form>
+
+            <div class="progress">
+                <div class="bar"></div>
+                <div class="percent">0%</div>
+            </div>
+
+            <div id="status"></div>
+
+
+        </div>
     </div>
-  </div>
 
 
 
+{% endblock %}
+
+{% block js %}
+    <script>
+
+        $(function () {
+            var bar = $('.bar');
+            var percent = $('.percent');
+            var status = $('#status');
+
+            $('form').ajaxForm({
+                beforeSend: function () {
+                    status.empty();
+                    var percentVal = '0%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                uploadProgress: function (event, position, total, percentComplete) {
+                    var percentVal = percentComplete + '%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                success: function () {
+                    var percentVal = '100%';
+                    bar.width(percentVal)
+                    percent.html(percentVal);
+                },
+                complete: function (xhr) {
+                    status.html(xhr.responseText);
+                }
+            })
+        })
+
+
+    </script>
 {% endblock %}

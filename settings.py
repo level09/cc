@@ -36,6 +36,14 @@ class Config(object):
     MAIL_PASSWORD = 'pass'
     SECURITY_EMAIL_SENDER = 'info@level09.com'
 
+    UPLOAD_DIR = os.path.join(os.path.dirname(__file__),'static','uploads')
+
+    #s3 upload settings
+    S3_LOCATION = 'http://net.alarabiya.merger.amazonaws.com/'
+    S3_KEY = 'AKIAIT7YFXLNW7VKV2JA'
+    S3_SECRET = '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'
+    S3_UPLOAD_DIRECTORY = ''
+    S3_BUCKET = 'net.alarabiya.merger'
 
 
 class ProdConfig(Config):

@@ -2,38 +2,40 @@
 
 {% block content %}
 
+    <section class="main">
+        <div class="container">
+            <div class="row">
 
-    <div class="container">
-        <div class="row">
+                <div class="result">
+                    <h1>Video/Subtitle Merger v1.0</h1>
 
-            <div class="result">
-                <h1>Video/Subtitle Merger v1.0</h1>
-
-
-                <form action="/submit" method="post" enctype="multipart/form-data">
-                    {{ form.csrf_token }}
-
-                    <p>{{ form.video.label }} {{ form.video() }} </p>
-
-                    <p>{{ form.srt.label }} {{ form.srt() }} </p>
-
-                    <p>{{ form.submit }} </p>
+                    <div class="sep"></div>
 
 
-                </form>
+                    <form action="/submit" method="post" enctype="multipart/form-data">
+                        {{ form.csrf_token }}
 
-                <div class="progress">
-                    <div class="bar"></div>
-                    <div class="percent">0%</div>
+                        <p>{{ form.video.label }} {{ form.video(class='xfile',accept='video/*',**{'data-validation':'required'}) }} </p>
+
+                        <p>{{ form.srt.label }} {{ form.srt(class='xfile',accept='.srt',**{'data-validation':'required'}) }} </p>
+
+                        <p>{{ form.submit }} </p>
+
+
+                    </form>
+
+                    <div class="progress">
+                        <div class="bar"></div>
+                        <div class="percent">0%</div>
+                    </div>
+                    <div id="status"></div>
+
+
                 </div>
-                <div id="status"></div>
-
 
             </div>
-
         </div>
-    </div>
-
+    </section>
 
 
 {% endblock %}
@@ -42,6 +44,10 @@
     <script>
 
         $(function () {
+            $.validate({
+                modules: 'file'
+            });
+
             var bar = $('.bar');
             var percent = $('.percent');
             var status = $('#status');
@@ -70,8 +76,13 @@
                 },
                 complete: function (xhr) {
                     res = JSON.parse(xhr.responseText);
-                $('#status').html('<a href="/'+res.result+'" download class="button button-primary">Download Processed Video</a>');
+                    $('#status').html('<a href="/' + res.result + '" download class="button button-primary">Download Processed Video</a>');
 
+
+                },
+                error: function (e) {
+                    $.unblockUI();
+                    alert('try again');
 
                 }
             })

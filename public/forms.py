@@ -4,6 +4,6 @@ from wtforms.widgets import FileInput
 
 
 class VideoForm(Form):
-    video = FileField('Video', widget=FileInput())
-    srt = FileField('Subtitle (srt)', widget=FileInput())
+    video = FileField('1. Choose Video', widget=FileInput())
+    srt = FileField('2. Choose Subtitle (srt)', widget=FileInput())
     submit = SubmitField('Upload & Merge')

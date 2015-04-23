@@ -1,0 +1,59 @@
+body {
+    background: #1f3b65;
+    font-family: 'Merriweather', Arial;
+    
+}
+
+h1 {
+    font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    color: #333;
+
+}
+
+.sep {
+    margin: 30px auto 100px auto;
+    border-bottom: 1px solid #ddd;
+    max-width: 200px;
+
+}
+
+.blockUI h4 {
+    margin: 0;
+    font-size: 16px;
+    padding: 20px;
+
+}
+
+.main .container {
+    background: #fff;
+    margin-top: 40px;
+}
+
+.main .result {
+    padding: 40px 120px;
+
+}
+
+input[type=file] {
+    border: 1px solid #f8f8f8;
+    padding: 8px;
+    font-size: 13px;
+}
+
+label {
+    font-size: 15px;
+    color: #444444;
+      margin: 40px 0 10px;
+}
+
+
+.form-error {
+    font-size: 12px;
+    font-style: italic;
+    color: rgba(255, 23, 23, 0.67);
+}
+

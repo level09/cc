@@ -70,7 +70,7 @@
                 },
                 complete: function (xhr) {
                     res = JSON.parse(xhr.responseText);
-                $('#status').html('<a href="/'+res.result+'" class="button button-primary">Download File</a>');
+                $('#status').html('<a href="/'+res.result+'" download class="button button-primary">Download Processed Video</a>');
 
 
                 }

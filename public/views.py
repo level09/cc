@@ -5,9 +5,11 @@ from public.forms import VideoForm
 from werkzeug import secure_filename
 from settings import Config
 from tools import s3_upload
-import os
+import os, json
+from tasks import merge
 bp_public = Blueprint('public',__name__, static_folder='../static')
 
+CFG = Config()
 
 @bp_public.route('/')
 def index():
@@ -31,11 +33,13 @@ def submit():
 
         if video:
             vid_name = secure_filename(video.filename)
-            video.save(os.path.join(Config().UPLOAD_DIR,  vid_name))
+            video.save(os.path.join(CFG.UPLOAD_DIR,  vid_name))
         if srt:
             srt_name = secure_filename(srt.filename)
-            srt.save(os.path.join(Config().UPLOAD_DIR,srt_name))
+            srt.save(os.path.join(CFG.UPLOAD_DIR,srt_name))
 
+        if vid_name and srt_name:
+            result = merge('%s/%s' % (CFG.UPLOAD_DIR,vid_name),'%s/%s' % (CFG.UPLOAD_DIR,srt_name))
+            return json.dumps(dict(status='success',result=result)),200
 
-
-    return 'done'
+    return 'failed',499

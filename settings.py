@@ -38,6 +38,8 @@ class Config(object):
 
     UPLOAD_DIR = os.path.join(os.path.dirname(__file__),'static','uploads')
 
+    ZENCODER_KEY = '6c6319487b8884587dd84d7bff5bdc42'
+
     #s3 upload settings
     S3_LOCATION = 'http://net.alarabiya.merger.amazonaws.com/'
     S3_KEY = 'AKIAIT7YFXLNW7VKV2JA'

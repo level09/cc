@@ -6,26 +6,30 @@
     <div class="container">
         <div class="row">
 
-            <h1>Video/Subtitle Merger v1.0</h1>
+            <div class="result">
+                <h1>Video/Subtitle Merger v1.0</h1>
 
 
-            <form action="/submit" method="post" enctype="multipart/form-data">
-                {{ form.csrf_token }}
+                <form action="/submit" method="post" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
 
-                <p>{{ form.video.label }} {{ form.video() }} </p>
-                <p>{{ form.srt.label }} {{ form.srt() }} </p>
-                <p>{{ form.submit }} </p>
+                    <p>{{ form.video.label }} {{ form.video() }} </p>
+
+                    <p>{{ form.srt.label }} {{ form.srt() }} </p>
+
+                    <p>{{ form.submit }} </p>
 
 
-            </form>
+                </form>
 
-            <div class="progress">
-                <div class="bar"></div>
-                <div class="percent">0%</div>
+                <div class="progress">
+                    <div class="bar"></div>
+                    <div class="percent">0%</div>
+                </div>
+                <div id="status"></div>
+
+
             </div>
-
-            <div id="status"></div>
-
 
         </div>
     </div>
@@ -44,23 +48,31 @@
 
             $('form').ajaxForm({
                 beforeSend: function () {
+                    $.blockUI({message: '<h4>Processing your request</h4>'});
+
                     status.empty();
                     var percentVal = '0%';
-                    bar.width(percentVal)
+                    bar.width(percentVal);
                     percent.html(percentVal);
                 },
                 uploadProgress: function (event, position, total, percentComplete) {
                     var percentVal = percentComplete + '%';
-                    bar.width(percentVal)
+                    bar.width(percentVal);
                     percent.html(percentVal);
                 },
-                success: function () {
+                success: function (res) {
+                    window.res = res;
+                    $.unblockUI();
+
                     var percentVal = '100%';
-                    bar.width(percentVal)
+                    bar.width(percentVal);
                     percent.html(percentVal);
                 },
                 complete: function (xhr) {
-                    status.html(xhr.responseText);
+                    res = JSON.parse(xhr.responseText);
+                $('#status').html('<a href="/'+res.result+'" class="button button-primary">Download File</a>');
+
+
                 }
             })
         })

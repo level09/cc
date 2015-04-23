@@ -15,7 +15,7 @@ h1 {
 }
 
 .sep {
-    margin: 30px auto 100px auto;
+    margin: 30px auto 60px auto;
     border-bottom: 1px solid #ddd;
     max-width: 200px;
 
@@ -57,3 +57,21 @@ label {
     color: rgba(255, 23, 23, 0.67);
 }
 
+
+#status {
+    text-align: center;
+
+}
+
+.percent {
+    text-align: center;
+}
+
+.bar {
+    height: 2px;
+    background: #92d84d;
+}
+
+#download {
+    text-align: center;
+}

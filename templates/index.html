@@ -12,7 +12,7 @@
                     <div class="sep"></div>
 
 
-                    <form action="/submit" method="post" enctype="multipart/form-data">
+                    <form class="video-form" action="/submit" method="post" enctype="multipart/form-data">
                         {{ form.csrf_token }}
 
                         <p>{{ form.video.label }} {{ form.video(class='xfile',accept='video/*',**{'data-validation':'required'}) }} </p>
@@ -24,11 +24,9 @@
 
                     </form>
 
-                    <div class="progress">
-                        <div class="bar"></div>
-                        <div class="percent">0%</div>
-                    </div>
-                    <div id="status"></div>
+                    <div id="download"></div>
+
+
 
 
                 </div>
@@ -48,13 +46,17 @@
                 modules: 'file'
             });
 
-            var bar = $('.bar');
-            var percent = $('.percent');
-            var status = $('#status');
+
 
             $('form').ajaxForm({
                 beforeSend: function () {
-                    $.blockUI({message: '<h4>Processing your request</h4>'});
+
+
+                    $.blockUI({message: '<h4>Processing your request</h4><div class="progress"><div class="bar"></div><div class="percent">0%</div></div><div id="status"></div>'});
+
+                    var bar = $('.bar');
+                    var percent = $('.percent');
+                    var status = $('#status');
 
                     status.empty();
                     var percentVal = '0%';
@@ -62,27 +64,41 @@
                     percent.html(percentVal);
                 },
                 uploadProgress: function (event, position, total, percentComplete) {
+
+                    var percent = $('.percent');
+                    var status = $('#status');
+
                     var percentVal = percentComplete + '%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
+                    $('.percent').html(percentVal);
+                    $('.bar').width(percentVal);
+                    if (percentComplete == 100){
+                        $('h4').html('Uploaded :: Now merging subtitles into the video ...');
+                        $('.percent').html('');
+
+                    }
+
+
+
                 },
                 success: function (res) {
                     window.res = res;
                     $.unblockUI();
 
-                    var percentVal = '100%';
-                    bar.width(percentVal);
-                    percent.html(percentVal);
+
+
+                    $('.bar').width('100%');
+                    $('.percent').html('100%');
                 },
                 complete: function (xhr) {
                     res = JSON.parse(xhr.responseText);
-                    $('#status').html('<a href="/' + res.result + '" download class="button button-primary">Download Processed Video</a>');
+                    $('.video-form').fadeOut();
+                    $('#download').html('<a href="/' + res.result + '" download class="button button-primary">Download Processed Video</a>');
 
 
                 },
                 error: function (e) {
                     $.unblockUI();
-                    alert('try again');
+                    alert('Error Processing your request, Please try again !');
 
                 }
             })
